@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='assets/icon.png') }}">
+    <title>Melo</title>
+
+    <!-- <link rel="icon" href="{{ url_for('static', filename='assets/icon.svg') }}"> -->
+
+    <style>
+        body {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" style="width: 300px;" hidden id="name" placeholder="Никнейм">
+    <select hidden id="language">
+        <option value="frontend">Front-end</option>
+        <option value="backend">Back-end</option>
+        <option value="frontend-backend">Front-end и Back-end</option>
+        <option value="python">Python</option>
+        <option value="c#">C#</option>
+    </select>
+    <input type="text" style="width: 300px;" placeholder="Номер телефона: 89001234567" id="phone">
+    <br><input type="checkbox" id="agree_terms"><a style="text-decoration: none; color: black; user-select: none;" href="policy_terms">Согласие с нашей политикой и правилами</a><br>
+    <button id="login" style="width: 300px; user-select: none;" onclick="login()">Войти</button>
+    <button id="register"style="width: 300px; user-select: none;" hidden onclick="register()">Войти</button>
+
+    <script>
+        async function login() {
+            let phone_number = document.querySelector('#phone');
+            let agree_terms = document.querySelector('#agree_terms');
+
+            if (phone_number.value != null && agree_terms.checked == true)
+            {
+                let response = await fetch(`/db/is_user_exists/${phone_number.value}`, {
+                    method: 'POST'
+                })
+
+                if (await response.text() == 'exists') {
+                    location.href = `/main/${phone_number.value}`;
+                }
+                else {
+                    let login_btn = document.querySelector('#login');
+                    let register_btn = document.querySelector('#register');
+
+                    let username = document.querySelector('#name');
+
+                    let language_field = document.querySelector('#language');
+
+                    
+
+                    username.removeAttribute('hidden');
+                    language_field.removeAttribute('hidden');
+                    register_btn.removeAttribute('hidden');
+                    
+                    login_btn.setAttribute('hidden', 'true');
+                }    
+            }
+        }
+
+        async function register() {
+            let phone_number = document.querySelector('#phone');
+            let language_field = document.querySelector('#language');
+            let agree_terms = document.querySelector('#agree_terms');
+            let username = document.querySelector('#name');
+
+
+            if (phone_number != null && language_field != null && username != null && agree_terms.checked == true)
+            {
+                await fetch(`/db/user_create/${username.value}/${language_field.value}/${phone_number.value}`, {
+                    method: 'POST'
+                })
+                // 89165320949
+                location.href = `/main/${phone_number.value}`;
+            }
+        }
+    </script>
+</body>
+</html>

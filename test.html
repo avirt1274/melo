@@ -1,0 +1,16 @@
+<body>
+    <p>Devtools is <span id='test'>off</span></p>
+
+    <script>
+            document.addEventListener('keydown', e => {
+                if (e.code=='F12') {
+                    e.preventDefault();
+                }
+            });
+
+            document.addEventListener('contextmenu', e => {
+                e.preventDefault();
+            })
+    </script>
+    
+</body>

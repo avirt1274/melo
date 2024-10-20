@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='assets/icon.png') }}">
+    <title>Melo - 1 - {{ language }}</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+        body {
+            margin: 0;
+            padding: 0;
+
+            text-align: center;
+            display: flex;
+            justify-content: center;
+
+            background-color: rgb(0, 0, 0);
+        }
+
+        .main1 {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+
+            background-color: rgb(51, 51, 51);
+        }
+
+        .question {
+            color: white;
+            font-family: 'Source Code Pro', monospace;
+        }
+
+        .answer {
+            user-select: none;
+
+            cursor: pointer;
+            width: 15vw;
+            height: 5vh;
+            border-radius: 1vh;
+            border: 1px black solid;
+            color: black;
+            background-color: white;
+            transition: .3s;
+
+            margin-top: 5px;
+        }
+
+        .answer:hover {
+            background-color: #48bf53;
+            color: white;
+        }
+
+        .answer:active {
+            background-color: #11823b;
+        }
+
+        .non_right_answer {
+            background-color: #d10000;
+            color: white;
+        }
+
+        .right_answer {
+            background-color: #48bf53;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main1">
+        <h1 class="question">В пайтон есть типы данных, разберём: str<br>str - это сокращённие string, string - это тип данных<br>str - это текст (пишется: "текст")<br>print() - выводит, то что между скобками<br>Что выведет код: print("Melo")</h1>
+
+        <button id="answer1_1" class="answer">Melo</button><br>
+        <button id="answer1_2" class="answer">"Melo"</button><br>
+        <button id="answer1_3" class="answer">ничего</button><br>
+        <button id="answer1_4" class="answer">я не понял</button><br><br>
+    </div>
+
+    <div id="main2" hidden>
+        <h1 class="question">Что такое string?</h1>
+
+        <button id="answer2_1" class="answer">Это текст</button><br>
+        <button id="answer2_2" class="answer">Это тип данных обозначающий текст</button><br>
+    </div>
+
+    <div id="main3" hidden>
+        <h1 class="question">В пайтон есть операции, операции это - + *, а разделить это /</h1>
+
+        <button id="answer3_1" class="answer">Я понял, дайте задание!</button><br>
+    </div>
+
+    <div id="main4" hidden>
+        <h1 class="question">Переменная - это типо коробка с именем, которая хранит что-либо<br>Пример: x = "Это текст string!"<br>Таким образом код: print(x) выведет:</h1>
+
+
+        <button id="answer4_1" class="answer">x</button><br>
+        <button id="answer4_2" class="answer">Это текст string!</button><br>
+    </div>
+
+    <div id="main5" hidden>
+        <h1 class="question">Можно складывать string, обычным плюсом<br>они просто привратятся в один string<br>Пример: "текст1" + " текст2" = "текст1 текст2"<br>Что выведет код: print("Как научится програмировать? " + "Melo!")</h1>
+
+
+        <button id="answer5_1" class="answer">Error</button><br>
+        <button id="answer5_2" class="answer">Как научится програмировать? Melo!</button><br>
+    </div>
+
+    <div id="main6" hidden>
+        <h1 class="question">Есть и цифры - int, integer - сокрощённо int<br>Уже дагадал(ся)(ась)? С ними можно проводить операции!<br>а в переменных они пишутся без ковычек<br>Разберём пример сложнее: x = 1 y = 2<br>print(x + y)</h1>
+
+
+        <button id="answer6_1" class="answer">12</button><br>
+        <button id="answer6_2" class="answer">3</button><br>
+    </div>
+
+    <div id="main7" hidden>
+        <h1 class="question">Ты спросишь, а как же десятичные дроби? А вот ответ: float!<br>Перейдём сразу к примеру!<br>x = 1.5 y = 2.5 print(x + y)</h1>
+
+
+        <button id="answer7_1" class="answer">"1.52.5"</button><br>
+        <button id="answer7_2" class="answer">4</button><br>
+    </div>
+
+    <div id="main8" hidden>
+        <h1 class="question">Ну и конечно же bool<br>bool - это сокрощение типа данных boolean<br>bool имеет только два значения - True (да) и False (нет)<br>Что выведет этот код: x = True print(x)</h1>
+
+
+        <button id="answer8_1" class="answer">Да</button><br>
+        <button id="answer8_2" class="answer">True</button><br>
+    </div>
+
+    <div id="main9" hidden>
+        <h1 class="question">Вау, а ты настойчив! Это конец урока!<br>Ещё три оператора: > < == => =<<br>> - больше | < - меньше<br>== - равно | <= - меньше или равно<br>>= - больше или равно<br>Что такое переменные?</h1>
+
+
+        <button id="answer9_1" class="answer">Это чтука которая выводит что-либо</button><br>
+        <button id="answer9_2" class="answer">Это типо коробка с именем, которая хранит что-либо</button><br>
+    </div>
+
+    <script>
+        let points = 0;
+
+        const answer1_1 = document.getElementById('answer1_1');
+        const answer1_2 = document.getElementById('answer1_2');
+        const answer1_3 = document.getElementById('answer1_3');
+        const answer1_4 = document.getElementById('answer1_4');
+
+        const main1 = document.getElementById('main1');
+
+        const answer2_1 = document.getElementById('answer2_1');
+        const answer2_2 = document.getElementById('answer2_2');
+
+        const main2 = document.getElementById('main2');
+
+        const answer3_1 = document.getElementById('answer3_1');
+
+        const main3 = document.getElementById('main3');
+
+        const answer4_1 = document.getElementById('answer4_1');
+        const answer4_2 = document.getElementById('answer4_2');
+
+        const main4 = document.getElementById('main4');
+
+        const answer5_1 = document.getElementById('answer5_1');
+        const answer5_2 = document.getElementById('answer5_2');
+
+        const main5 = document.getElementById('main5');
+
+        const answer6_1 = document.getElementById('answer6_1');
+        const answer6_2 = document.getElementById('answer6_2');
+
+        const main6 = document.getElementById('main6');
+        
+        const answer7_1 = document.getElementById('answer7_1');
+        const answer7_2 = document.getElementById('answer7_2');
+
+        const main7 = document.getElementById('main7');
+
+        const answer8_1 = document.getElementById('answer8_1');
+        const answer8_2 = document.getElementById('answer8_2');
+
+        const main8 = document.getElementById('main8');
+        
+        const answer9_1 = document.getElementById('answer9_1');
+        const answer9_2 = document.getElementById('answer9_2');
+
+        const main9 = document.getElementById('main9');
+
+        // 1 to 2
+        answer1_1.addEventListener('click', (e) => {
+            points += 1;
+            answer1_1.classList.add('right_answer');
+
+            answer1_1.disabled = true;
+            answer1_2.disabled = true;
+            answer1_3.disabled = true;
+            answer1_4.disabled = true;
+
+            to_2_after_5sec();
+        })
+
+        answer1_2.addEventListener('click', (e) => {
+            answer1_1.classList.add('right_answer');
+            answer1_2.classList.add('non_right_answer');
+            answer1_3.classList.add('non_right_answer');
+            answer1_4.classList.add('non_right_answer');
+
+            answer1_1.disabled = true;
+            answer1_2.disabled = true;
+            answer1_3.disabled = true;
+            answer1_4.disabled = true;
+
+            to_2_after_5sec();
+        })
+
+        answer1_3.addEventListener('click', (e) => {
+            answer1_1.classList.add('right_answer');
+            answer1_2.classList.add('non_right_answer');
+            answer1_3.classList.add('non_right_answer');
+            answer1_4.classList.add('non_right_answer');
+
+            answer1_1.disabled = true;
+            answer1_2.disabled = true;
+            answer1_3.disabled = true;
+            answer1_4.disabled = true;
+
+            to_2_after_5sec();
+        })
+
+        answer1_4.addEventListener('click', (e) => {
+            answer1_1.classList.add('right_answer');
+            answer1_2.classList.add('non_right_answer');
+            answer1_3.classList.add('non_right_answer');
+            answer1_4.classList.add('non_right_answer');
+
+            answer1_1.disabled = true;
+            answer1_2.disabled = true;
+            answer1_3.disabled = true;
+            answer1_4.disabled = true;
+
+            to_2_after_5sec();
+        })
+
+        function to_2_after_5sec() {
+            setTimeout(() => {
+                main1.setAttribute('hidden', 'true');
+                main2.removeAttribute('hidden');
+            }, 5000);
+        }
+
+        // 2 to 3
+        answer2_1.addEventListener('click', (e) => {
+            answer2_2.classList.add('right_answer');
+            answer2_1.classList.add('non_right_answer');
+
+            answer2_1.disabled = true;
+            answer2_2.disabled = true;
+
+            to_3_after_5sec();
+        })
+
+        answer2_2.addEventListener('click', (e) => {
+            points += 1;
+            answer2_2.classList.add('right_answer');
+
+            answer2_1.disabled = true;
+            answer2_2.disabled = true;
+
+            to_3_after_5sec();
+        })
+
+        function to_3_after_5sec() {
+            setTimeout(() => {
+                main2.setAttribute('hidden', 'true');
+                main3.removeAttribute('hidden');
+            }, 5000);
+        }
+
+
+        // 3 to 4
+        answer3_1.addEventListener('click', (e) => {
+            answer3_1.classList.add('right_answer');
+
+            answer3_1.disabled = true;
+
+            main3.setAttribute('hidden', 'true');
+            main4.removeAttribute('hidden');
+        })
+
+        // 4 to 5
+        answer4_1.addEventListener('click', (e) => {
+            answer4_2.classList.add('right_answer');
+            answer4_1.classList.add('non_right_answer');
+
+            answer4_1.disabled = true;
+            answer4_2.disabled = true;
+
+            to_5_after_5sec();
+        })
+
+        answer4_2.addEventListener('click', (e) => {
+            points += 1;
+            answer4_2.classList.add('right_answer');
+
+            answer4_1.disabled = true;
+            answer4_2.disabled = true;
+
+            to_5_after_5sec();
+        })
+
+        function to_5_after_5sec() {
+            setTimeout(() => {
+                main4.setAttribute('hidden', 'true');
+                main5.removeAttribute('hidden');
+            }, 5000);
+        }
+
+        
+        // 5 to 6
+        answer5_1.addEventListener('click', (e) => {
+            answer5_2.classList.add('right_answer');
+            answer5_1.classList.add('non_right_answer');
+
+            answer5_1.disabled = true;
+            answer5_2.disabled = true;
+
+            to_6_after_5sec();
+        })
+
+        answer5_2.addEventListener('click', (e) => {
+            points += 1;
+            answer5_2.classList.add('right_answer');
+
+            answer5_1.disabled = true;
+            answer5_2.disabled = true;
+
+            to_6_after_5sec();
+        })
+
+        function to_6_after_5sec() {
+            setTimeout(() => {
+                main5.setAttribute('hidden', 'true');
+                main6.removeAttribute('hidden');
+            }, 5000);
+        }
+
+        // 6 to 7
+        answer6_1.addEventListener('click', (e) => {
+            answer6_2.classList.add('right_answer');
+            answer6_1.classList.add('non_right_answer');
+
+            answer6_1.disabled = true;
+            answer6_2.disabled = true;
+
+            to_7_after_5sec();
+        })
+
+        answer6_2.addEventListener('click', (e) => {
+            points += 1;
+            answer6_2.classList.add('right_answer');
+
+            answer6_1.disabled = true;
+            answer6_2.disabled = true;
+
+            to_7_after_5sec();
+        })
+
+        function to_7_after_5sec() {
+            setTimeout(() => {
+                main6.setAttribute('hidden', 'true');
+                main7.removeAttribute('hidden');
+            }, 5000);
+        }
+
+        // 7 to 8
+        answer7_1.addEventListener('click', (e) => {
+            answer7_2.classList.add('right_answer');
+            answer7_1.classList.add('non_right_answer');
+
+            answer7_1.disabled = true;
+            answer7_2.disabled = true;
+
+            to_8_after_5sec();
+        })
+
+        answer7_2.addEventListener('click', (e) => {
+            points += 1;
+            answer7_2.classList.add('right_answer');
+
+            answer7_1.disabled = true;
+            answer7_2.disabled = true;
+
+            to_8_after_5sec();
+        })
+
+        function to_8_after_5sec() {
+            setTimeout(() => {
+                main7.setAttribute('hidden', 'true');
+                main8.removeAttribute('hidden');
+            }, 5000);
+        }
+
+
+        // 8 to 9
+        answer8_1.addEventListener('click', (e) => {
+            answer8_2.classList.add('right_answer');
+            answer8_1.classList.add('non_right_answer');
+
+            answer8_1.disabled = true;
+            answer8_2.disabled = true;
+
+            to_9_after_5sec();
+        })
+
+        answer8_2.addEventListener('click', (e) => {
+            points += 1;
+            answer8_2.classList.add('right_answer');
+
+            answer8_1.disabled = true;
+            answer8_2.disabled = true;
+
+            to_9_after_5sec();
+        })
+
+        function to_9_after_5sec() {
+            setTimeout(() => {
+                main8.setAttribute('hidden', 'true');
+                main9.removeAttribute('hidden');
+            }, 5000);
+        }
+
+        // 9 to end
+        answer9_1.addEventListener('click', (e) => {
+            answer9_2.classList.add('right_answer');
+            answer9_1.classList.add('non_right_answer');
+
+            answer9_1.disabled = true;
+            answer9_2.disabled = true;
+
+            to_end_after_5sec();
+        })
+
+        answer9_2.addEventListener('click', (e) => {
+            points += 1;
+            answer9_2.classList.add('right_answer');
+
+            answer9_1.disabled = true;
+            answer9_2.disabled = true;
+
+            to_end_after_5sec();
+        })
+
+        function to_end_after_5sec() {
+            setTimeout(() => {
+                end_lesson();
+            }, 5000);
+        }
+
+        async function end_lesson() {
+            let response = await fetch(`/lesson/{{ phone_number }}/${points}/end`, {
+                method: 'POST'
+            })
+
+            if (await response.text() == 'success') {
+                location.href = '/main/{{ phone_number }}';
+            }
+            else {
+                location.reload();
+            }
+        }
+    </script>
+</body>
+
+</html>
